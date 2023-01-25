@@ -13,6 +13,14 @@
         td {
             border: 1px solid black
         }
+        div {
+            display: flex;
+            justify-content: center;
+        }
+        .paging {
+            display: inline-flex;
+            padding: 2%;
+        }
     </style>
 </head>
 <body>
@@ -29,12 +37,18 @@
         <tbody id="movies">
         </tbody>
     </table>
+    <div id="pagination">
+    </div>
 </body>
 <script>
-    fetch('http://localhost:3100/movies')
+    const urlSearch = new URLSearchParams(location.search);
+    const page = urlSearch.get('page') || 1
+    // console.log(page)
+
+    fetch(`http://localhost:3100/movies?page=${page}`)
         .then(response => response.json() )
         .then(movies => {
-            const html = movies.map(movie => {
+            const html = movies.movies.map(movie => {
                 return `
                 <tr>
                     <td>${movie.id}</td>
@@ -46,6 +60,15 @@
             })
             // console.log(html.join(''))
             document.getElementById('movies').innerHTML = html.join('')
+
+            const lastPage = movies.pageInfo.lastPage
+            // console.log(lastPage)
+            const pages = []
+            for(let i = 1 ; i <= lastPage; i++) {
+                pages.push(`<a class="paging" href="?page=${i}">${i}</a>`)
+            }
+            // console.log(pages)
+            document.getElementById('pagination').innerHTML = pages.join('')
         })
 </script>
 </html>

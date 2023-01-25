@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화 목록</title>
+    <style>
+        table {
+            border: 1.5px solid black;
+            width: 100%;
+        }
+        td {
+            border: 1px solid black
+        }
+    </style>
+</head>
+<body>
+    <h1>영화 리스트 보기</h1>
+    <a href="register.html">영화 등록하러 가기</a>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>등록자</th>
+            <th>조회수</th>
+            <th>등록날짜</th>
+        </tr>
+        <tbody id="movies">
+        </tbody>
+    </table>
+</body>
+<script>
+    fetch('http://localhost:3100/movies')
+        .then(response => response.json() )
+        .then(movies => {
+            const html = movies.map(movie => {
+                return `
+                <tr>
+                    <td>${movie.id}</td>
+                    <td><a href="movie.html?id=${movie.id}">${movie.movie_title}</a></td>
+                    <td>${movie.name}</td>
+                    <td>${movie.hit_count}</td>
+                    <td>${movie.created_at}</td>
+                </tr>`
+            })
+            // console.log(html.join(''))
+            document.getElementById('movies').innerHTML = html.join('')
+        })
+</script>
+</html>

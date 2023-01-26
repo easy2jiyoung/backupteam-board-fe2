@@ -17,7 +17,7 @@
             display: flex;
             justify-content: center;
         }
-        .pageNumber {
+        button {
             display: inline-flex;
             margin: 30px 5px 0px 5px; 
         }
@@ -144,10 +144,14 @@
             // 1~5만큼 페이지네이션 그려줌
             const pages = []
             for (let i = firstNumber; i <= lastNumber; i++) {
+                
                 pages.push(
-                    `<button class="pageNumber" onclick="location.href='?page=${i}'">${i}</button>`
+                    `<button onclick="location.href='?page=${i}'">${i}</button>`
                     )
             }
+            if(firstNumber > 1) {
+                    pages.unshift(`<button onclick="location.href='?page${i-1}'">이전</button>`)
+                }
             
 
             /*

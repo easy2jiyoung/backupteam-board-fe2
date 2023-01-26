@@ -17,9 +17,9 @@
             display: flex;
             justify-content: center;
         }
-        .paging {
+        .pageNumber {
             display: inline-flex;
-            padding: 2%;
+            margin: 30px 5px 0px 5px; 
         }
     </style>
 </head>
@@ -63,71 +63,71 @@
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
-        function renderPagination(currentPage) {
-            if (_totalCount <= 8) return; 
+        // function renderPagination(currentPage) {
+        //     if (_totalCount <= 8) return; 
         
-            const totalPage = Math.ceil(_totalCount / 8);
-            const pageGroup = Math.ceil(currentPage / 4);
+        //     const totalPage = Math.ceil(_totalCount / 8);
+        //     const pageGroup = Math.ceil(currentPage / 4);
         
-            const last = pageGroup * 4;
-            if (last > totalPage) last = totalPage;
-            const first = last - (4 - 1) <= 0 ? 1 : last - (4 - 1);
-            const next = last + 1;
-            const prev = first - 1;
+        //     const last = pageGroup * 4;
+        //     if (last > totalPage) last = totalPage;
+        //     const first = last - (4 - 1) <= 0 ? 1 : last - (4 - 1);
+        //     const next = last + 1;
+        //     const prev = first - 1;
         
-            const fragmentPage = document.createDocumentFragment();
-            if (prev > 0) {
-            var allpreli = document.createElement('li');
-            allpreli.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='allprev'>&lt;&lt;</a>`);
+        //     const fragmentPage = document.createDocumentFragment();
+        //     if (prev > 0) {
+        //     var allpreli = document.createElement('li');
+        //     allpreli.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='allprev'>&lt;&lt;</a>`);
         
-            var preli = document.createElement('li');
-                preli.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='prev'>&lt;</a>`);
+        //     var preli = document.createElement('li');
+        //         preli.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='prev'>&lt;</a>`);
         
-                fragmentPage.appendChild(allpreli);
-                fragmentPage.appendChild(preli);
-            }
+        //         fragmentPage.appendChild(allpreli);
+        //         fragmentPage.appendChild(preli);
+        //     }
             
-            for (var i = first; i <= last; i++) {
-            const li = document.createElement("li");
-            li.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='page-${i}' data-num='${i}'>${i}</a>`);
-            fragmentPage.appendChild(li);
-            }
+        //     for (var i = first; i <= last; i++) {
+        //     const li = document.createElement("li");
+        //     li.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='page-${i}' data-num='${i}'>${i}</a>`);
+        //     fragmentPage.appendChild(li);
+        //     }
         
-            if (last < totalPage) {
-            var allendli = document.createElement('li');
-            allendli.insertAdjacentHTML("beforeend", `<a href='#js-bottom'  id='allnext'>&gt;&gt;</a>`);
+        //     if (last < totalPage) {
+        //     var allendli = document.createElement('li');
+        //     allendli.insertAdjacentHTML("beforeend", `<a href='#js-bottom'  id='allnext'>&gt;&gt;</a>`);
         
-            var endli = document.createElement('li');
-            endli.insertAdjacentHTML("beforeend", `<a  href='#js-program-detail-bottom'  id='next'>&gt;</a>`);
+        //     var endli = document.createElement('li');
+        //     endli.insertAdjacentHTML("beforeend", `<a  href='#js-program-detail-bottom'  id='next'>&gt;</a>`);
         
-            fragmentPage.appendChild(endli);
-            fragmentPage.appendChild(allendli);
-            }
+        //     fragmentPage.appendChild(endli);
+        //     fragmentPage.appendChild(allendli);
+        //     }
         
-            document.getElementById('js-pagination').appendChild(fragmentPage);
-            // 페이지 목록 생성
+        //     document.getElementById('js-pagination').appendChild(fragmentPage);
+        //     // 페이지 목록 생성
         
-            $(`#js-pagination a`).removeClass("active");
-            $(`#js-pagination a#page-${currentPage}`).addClass("active");
+        //     $(`#js-pagination a`).removeClass("active");
+        //     $(`#js-pagination a#page-${currentPage}`).addClass("active");
         
-            $("#js-pagination a").click(function (e) {
-            e.preventDefault();
-            var $item = $(this);
-            var $id = $item.attr("id");
-            var selectedPage = $item.text();
+        //     $("#js-pagination a").click(function (e) {
+        //     e.preventDefault();
+        //     var $item = $(this);
+        //     var $id = $item.attr("id");
+        //     var selectedPage = $item.text();
         
-            if ($id == "next") selectedPage = next;
-            if ($id == "prev") selectedPage = prev;
-            if ($id == "allprev") selectedPage = 1;
-            if ($id == "allnext") selectedPage = totalPage;
+        //     if ($id == "next") selectedPage = next;
+        //     if ($id == "prev") selectedPage = prev;
+        //     if ($id == "allprev") selectedPage = 1;
+        //     if ($id == "allnext") selectedPage = totalPage;
         
-            list.renderPagination(selectedPage);//페이지네이션 그리는 함수
-            list.search(selectedPage);//페이지 그리는 함수
-            });
-        };
+        //     list.renderPagination(selectedPage);//페이지네이션 그리는 함수
+        //     list.search(selectedPage);//페이지 그리는 함수
+        //     });
+        // };
 
 
-            /*
+            
             const pageGroup = 1
             const pageCount = 3
             const totalPage = Math.ceil(movies.length / 4)
@@ -145,9 +145,10 @@
             const pages = []
             for (let i = firstNumber; i <= lastNumber; i++) {
                 pages.push(
-                    `<button class="pageNumber" id="page_${i}">${i}</button>`)
+                    `<button class="pageNumber" onclick="location.href='?page=${i}'">${i}</button>`
+                    )
             }
-            */
+            
 
             /*
             const lastPage = movies.pageInfo.lastPage
@@ -158,7 +159,7 @@
             } 
             console.log(pages)
             */
-            //document.getElementById('pagination').innerHTML = pages.join('')
+            document.getElementById('pagination').innerHTML = pages.join('')
         })
 </script>
 </html>

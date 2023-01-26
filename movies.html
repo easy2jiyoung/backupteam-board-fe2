@@ -61,14 +61,104 @@
             // console.log(html.join(''))
             document.getElementById('movies').innerHTML = html.join('')
 
+//-------------------------------------------------------------------------------------------------------------------------------------------
+
+        function renderPagination(currentPage) {
+            if (_totalCount <= 8) return; 
+        
+            const totalPage = Math.ceil(_totalCount / 8);
+            const pageGroup = Math.ceil(currentPage / 4);
+        
+            const last = pageGroup * 4;
+            if (last > totalPage) last = totalPage;
+            const first = last - (4 - 1) <= 0 ? 1 : last - (4 - 1);
+            const next = last + 1;
+            const prev = first - 1;
+        
+            const fragmentPage = document.createDocumentFragment();
+            if (prev > 0) {
+            var allpreli = document.createElement('li');
+            allpreli.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='allprev'>&lt;&lt;</a>`);
+        
+            var preli = document.createElement('li');
+                preli.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='prev'>&lt;</a>`);
+        
+                fragmentPage.appendChild(allpreli);
+                fragmentPage.appendChild(preli);
+            }
+            
+            for (var i = first; i <= last; i++) {
+            const li = document.createElement("li");
+            li.insertAdjacentHTML("beforeend", `<a href='#js-bottom' id='page-${i}' data-num='${i}'>${i}</a>`);
+            fragmentPage.appendChild(li);
+            }
+        
+            if (last < totalPage) {
+            var allendli = document.createElement('li');
+            allendli.insertAdjacentHTML("beforeend", `<a href='#js-bottom'  id='allnext'>&gt;&gt;</a>`);
+        
+            var endli = document.createElement('li');
+            endli.insertAdjacentHTML("beforeend", `<a  href='#js-program-detail-bottom'  id='next'>&gt;</a>`);
+        
+            fragmentPage.appendChild(endli);
+            fragmentPage.appendChild(allendli);
+            }
+        
+            document.getElementById('js-pagination').appendChild(fragmentPage);
+            // 페이지 목록 생성
+        
+            $(`#js-pagination a`).removeClass("active");
+            $(`#js-pagination a#page-${currentPage}`).addClass("active");
+        
+            $("#js-pagination a").click(function (e) {
+            e.preventDefault();
+            var $item = $(this);
+            var $id = $item.attr("id");
+            var selectedPage = $item.text();
+        
+            if ($id == "next") selectedPage = next;
+            if ($id == "prev") selectedPage = prev;
+            if ($id == "allprev") selectedPage = 1;
+            if ($id == "allnext") selectedPage = totalPage;
+        
+            list.renderPagination(selectedPage);//페이지네이션 그리는 함수
+            list.search(selectedPage);//페이지 그리는 함수
+            });
+        };
+
+
+            /*
+            const pageGroup = 1
+            const pageCount = 3
+            const totalPage = Math.ceil(movies.length / 4)
+
+            let lastNumber = pageGroup * pageCount // 3
+            if (lastNumber > totalPage) {
+            lastNumber = totalPage
+            }
+            let firstNumber = lastNumber - (pageCount - 1) // 1
+
+            const next = lastNumber + 1 // 6
+            const prev = firstNumber - 1 // 0
+
+            // 1~5만큼 페이지네이션 그려줌
+            const pages = []
+            for (let i = firstNumber; i <= lastNumber; i++) {
+                pages.push(
+                    `<button class="pageNumber" id="page_${i}">${i}</button>`)
+            }
+            */
+
+            /*
             const lastPage = movies.pageInfo.lastPage
             // console.log(lastPage)
             const pages = []
             for(let i = 1 ; i <= lastPage; i++) {
                 pages.push(`<a class="paging" href="?page=${i}">${i}</a>`)
-            }
-            // console.log(pages)
-            document.getElementById('pagination').innerHTML = pages.join('')
+            } 
+            console.log(pages)
+            */
+            //document.getElementById('pagination').innerHTML = pages.join('')
         })
 </script>
 </html>
